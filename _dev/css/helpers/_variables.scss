@@ -1,0 +1,26 @@
+// Переменные для adjustment
+$footer-height: 50px;
+$container-width: 940px;
+
+// Корпоративные цвета и шрифты сайта
+$primary-dark: #ffffff;
+$primary-light: #FFEED5;
+$primary-mid: #DC664A;
+$secondary-dark: #5A3928;
+$secondary-light: #FDC149;
+
+$headline-font: 'Varela Round', Helvetica, Arial, sans-serif;
+$body-font: 'Palatino Linotype', Baskerville, serif;
+
+// функциональные переменные
+$page-background: $primary-light;
+$headline-color: $primary-dark;
+$text-color: $primary-dark;
+$border-light: $secondary-light;
+$border-dark: $primary-dark;
+
+// Точки останова
+$desktop: 1200px;
+$laptop: 992px;
+$tablets: 768px;
+$phones: 480px;

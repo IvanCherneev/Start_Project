@@ -1,0 +1,22 @@
+// Подключение специальных файлов
+@import "helpers/mixins";
+@import "helpers/variables";
+
+// Подключение базовых файлов
+@import "base/normalize";
+@import "base/adjustment";
+@import "base/typography";
+
+// Подключение файлов форматирования элементов страницы
+@import "layout/header";
+@import "layout/footer";
+@import "layout/sidebar";
+@import "layout/content";
+
+// Подключение файлов с компонентами страницы
+@import "components/buttons";
+@import "components/dropdown";
+@import "components/navigation";
+
+// Подключение плагинов
+@import "plugins/font-awesome";

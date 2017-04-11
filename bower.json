@@ -1,0 +1,7 @@
+{
+  "name": "first_project",
+  "dependencies": {
+    "jquery": "1.9",
+    "normalize-css": "normalize.css#^4.2.0"
+  }
+}
