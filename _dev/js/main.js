@@ -1,2 +1,2 @@
-var a;
-var d;
+$(".wrapper").css({'background': 'red'});
+document.write('Ggggg');
