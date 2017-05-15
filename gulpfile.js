@@ -126,6 +126,7 @@ gulp.task('script:modernizr', function() {
 // Задача для запуска сервера
 gulp.task('browser-sync', function() {
   return browserSync.init({
+	reloadDelay: 2000,  
     server: {
       baseDir: './_production/'
     }
