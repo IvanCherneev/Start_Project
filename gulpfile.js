@@ -30,7 +30,7 @@ gulp.task('production', ['clean'], function() {
 gulp.task('dev', ['build', 'watch', 'browser-sync']);
 
 // Задача запускаемая режим продакшн. Сборка проекта
-gulp.task('build', ['html', 'styles', 'styles:vendor', 'scripts', 'scripts:vendor', 'script:modernizr', 'fonts', 'images']);
+gulp.task('build', ['html', 'styles', 'styles:vendor', 'scripts', 'scripts:vendor', 'fonts', 'images']);
 
 // Слежка за изменением файлов в проекте и если это произошло, то запускаются соответствующие задачи
 gulp.task('watch', function() {
@@ -115,12 +115,6 @@ gulp.task('scripts:vendor', function () {
      .pipe(concat('vendor.js'))
      .pipe(uglify()) // Минификация скриптов
      .pipe(gulp.dest('_production/js'));
-});
-
-// Перемещение скрипта Modernizr в папку _production
-gulp.task('script:modernizr', function() {
-  return gulp.src('./_dev/js/vendor/modernizr.js')
-    .pipe(gulp.dest('_production/js'));
 });
 
 // Задача для запуска сервера

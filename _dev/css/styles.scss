@@ -3,8 +3,12 @@
 @import "helpers/variables";
 
 // Подключение базовых файлов
+@import "base/bootstrap";
 @import "base/adjustment";
 @import "base/typography";
+
+// Подключение плагинов
+@import "plugins/font-awesome";
 
 // Подключение файлов форматирования элементов страницы
 @import "layout/header";
@@ -16,6 +20,3 @@
 @import "components/buttons";
 @import "components/dropdown";
 @import "components/navigation";
-
-// Подключение плагинов
-@import "plugins/font-awesome";

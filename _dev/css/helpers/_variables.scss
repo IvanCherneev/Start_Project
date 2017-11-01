@@ -1,24 +1,54 @@
-// Переменные для adjustment
-$footer-height: 50px;
-$container-width: 940px;
-$padding-footer: 0px;
+// Переменные размеров для adjustment
+$footer-height: rem(150px);
+$container-width: rem(1100px);
+$padding-footer: 0;
 
-// Корпоративные цвета и шрифты сайта
-$primary-dark: #000000;
-$primary-light: #ffffff;
-$secondary-dark: #111111;
-$tertiary-dark: #222222;
+// Переменные цветов сайта
+$one-blue: #2c3e50;
+$two-blue: #3e61af;
+$free-blue: #68a097;
 
-$headline-font: 'Varela Round', Helvetica, Arial, sans-serif;
-$body-font: 'Palatino Linotype', Baskerville, serif;
+$one-white: #ffffff;
+$two-white: #fefefe;
 
-// функциональные переменные
-$page-background-color: $primary-light;
-$headline-color: $primary-dark;
-$footer-color: $tertiary-dark;
-$text-color: $primary-dark;
-$border-light: $secondary-light;
-$border-dark: $primary-dark;
+$one-red: #b24a50;
+
+$one-purple: #4d3f4b;
+$two-purple: #5b4b59;
+$free-purple: #665464;
+
+/*
+* Функциональные переменные
+*/
+
+// Цвет страницы
+$page-bg-color: $one-white;
+
+// Цвета Навигации
+$nav-text-color: $one-white;
+$nav-bg-color: transparent;
+
+// Цвет текста Логотипа
+$logo-text-color: $one-white;
+
+// Остновные цвета для блока Header
+$header-bg-color: $one-blue;
+$header-slider-text-bg-color: transparentize($one-white, 0.7);
+$header-slider-nav-bg-color: transparentize($one-white, 0.5);
+
+
+// Основные цвета для блока Main
+$services-bg-color: $one-red;
+$services-title-text-color: $one-white;
+$services-desc-text-color-1: $one-white;
+$services-block-text-title-color: $one-white;
+$services-block-text-desc-color: $two-white;
+
+// Остновные цвета для блока Footer
+$foter-bg-color: $free-blue;
+$footer-block-social-img-color: $one-white;
+$footer-block-social-bg-f-color-hover: $two-blue;
+$footer-block-social-bg-i-color-hover: $two-blue;
 
 // Точки останова
 $desktop: 1200px;
