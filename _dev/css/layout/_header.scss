@@ -1,3 +1,4 @@
-div{
-	
+.text {
+	@include roboto(bold);
+	font-size: 24px;
 }

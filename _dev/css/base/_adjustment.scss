@@ -52,9 +52,9 @@ body {
 // Встраивается в другие блоки и выравнивает по центру
 .container {
 	@extend %clearfix;
-	//margin: 0 auto;
-	max-width: $container-width + rem(40px);
-	min-width: rem(320px);
+	margin: 0 auto;
+	max-width: $container-width;
+	min-width: 320px;
 	//padding: 0 20px 0 20px;
 	position: relative;
 }
@@ -72,6 +72,7 @@ li {
 // Настройка заголовков
 h1, h2, h3, h4, h5, h6 {
 	margin-top: 0;
+	margin-bottom: 0;
 	font-weight: normal;
 }
 
