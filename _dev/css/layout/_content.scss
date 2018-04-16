@@ -1,1 +1,21 @@
+.main {
+	padding-top: 15px;
+}
 
+.content {
+	margin-left: 300px;
+}
+
+.content__title {
+	font-size: 28px;
+	color: #745E4E;
+	font-weight: bold;
+}
+
+.content__desc {
+	border: 1px solid grey;
+	font-size: 18px;
+	border-radius: 5px;
+	padding: 25px 15px;
+	background-color: #edbc9a;
+}

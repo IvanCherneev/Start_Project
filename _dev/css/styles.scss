@@ -10,10 +10,10 @@
 @import "plugins/font-awesome";
 
 // Подключение файлов форматирования элементов страницы
+@import "layout/content";
 @import "layout/header";
 @import "layout/footer";
 @import "layout/sidebar";
-@import "layout/content";
 
 // Подключение файлов с компонентами страницы
 @import "components/buttons";

@@ -1,4 +1,40 @@
-.text {
-	@include roboto(bold);
-	font-size: 24px;
+.header {
+	padding-top: 15px;
+}
+
+.logo,
+.search,
+.socials {
+	@include inlineblock($valign: top);
+	width: 33.3%;
+	margin-right: -4px;
+}
+
+.search__form {
+	padding-left: 58px;
+	padding-top: 15px;
+}
+
+.search__input {
+	border-radius: 3px;
+}
+
+.search__submit {
+	background-color: orange;
+	border: none;
+}
+
+.socials__list {
+	@extend %clearfix;
+}
+
+.socials__item {
+	float: right;
+	font-size: 34px;
+	margin-right: 15px;
+	color: #4bb7fb;
+
+	&:first-child {
+		margin-right: 0;
+	}
 }

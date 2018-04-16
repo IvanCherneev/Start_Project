@@ -1,0 +1,14 @@
+header.header
+	.container
+		figure.logo
+			img.logo__img(src='images/logo.png', alt='Логотип')
+			figcaption.logo__caption
+		.search
+			form.search__form(method='GET', action='#', name='search__form')
+				input.search__input(name='text', type='text', placeholder='Поиск')
+				input.search__submit(type='submit', value='Найти')
+		.socials
+			ul.socials__list
+				each item in ['facebook', 'twitter', 'instagram', 'vk']
+					li.socials__item
+						i(class=`fa fa-${item}` aria-hidden='true')

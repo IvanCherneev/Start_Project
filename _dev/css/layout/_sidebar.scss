@@ -1,3 +1,23 @@
-div{
-	
+.sidebar {
+	width: 250px;
+ 	float: left;
+ 	border-right: 2px dashed #745E4E;
+ 	padding-right: 15px;
+}
+
+.sidebar__title {
+	font-size: 28px;
+	color: #745E4E;
+	font-weight: bold;
+}
+
+.nav-acord__item {
+	font-size: 18px;
+	border: 1px solid grey;
+	margin-bottom: 15px;
+}
+
+.nav-acord__content-item {
+	list-style: disc inside;
+	font-size: 16px;
 }

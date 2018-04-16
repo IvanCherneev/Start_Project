@@ -1,0 +1,21 @@
+block link
+	- var selected = 'Главная'
+
+-
+	var menu = {
+		'Главная': 'index.html',
+		'Новости': '#',
+		'О сайте': 'about.html',
+		'Контакты': '#',
+		'Предложения': '#'
+	}
+
+nav.nav-bar
+	.container
+		ul.nav-bar__list
+			each val, key in menu
+				li.nav-bar__item
+					if selected === key
+						a(class='nav-bar__link nav-bar__link_active' href=val)= key
+					else
+						a.nav-bar__link(href=val)= key

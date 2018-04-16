@@ -14,7 +14,7 @@
 	</li>
 	<li>Скачиваем шаблон по ссылке 
 		<a href="https://github.com/IvanCherneev/html-start-template/archive/master.zip">Загрузить</a> 
-		или же ипользуя консоль. Для загрузки через консоль, нужно указать директорию и 
+		или же используя консоль. Для загрузки через консоль, нужно указать директорию и 
 		ввести команду <b><i>git clone https://github.com/IvanCherneev/html-start-template.git</i></b></li>
 	<li>Устанавливаем npm-пакеты: <b><i>npm i</i></b></li>
 	<li>Устанавливаем bower-пакеты: <b><i>bower i</i></b></li>

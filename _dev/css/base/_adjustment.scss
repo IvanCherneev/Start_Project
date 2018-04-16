@@ -53,10 +53,11 @@ body {
 .container {
 	@extend %clearfix;
 	margin: 0 auto;
-	max-width: $container-width;
+	max-width: $container-width + 20px; // 20px для отображения на смартах
 	min-width: 320px;
-	//padding: 0 20px 0 20px;
+	padding: 0 20px 0 20px;
 	position: relative;
+	//outline: 1px solid black;
 }
 
 // Настройка списка
@@ -80,4 +81,9 @@ h1, h2, h3, h4, h5, h6 {
 img {
 	max-width: 100%;
 	height: auto;
+}
+
+// Другие настройки
+figure {
+	margin: 0;
 }

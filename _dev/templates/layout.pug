@@ -1,0 +1,26 @@
+doctype html
+html(lang='ru-RU')
+	
+	include head
+
+	body
+		.wrapper
+			.maincontent
+		
+				include header
+				include navigation
+				
+				main.main
+					.container
+						
+						include sidebar
+
+						.content
+							.content__title Контентная часть
+							.content__desc
+								block content
+		
+		include footer
+
+		script(src='js/vendor.js?rev=@@hash')
+		script(src='js/main.min.js?rev=@@hash')

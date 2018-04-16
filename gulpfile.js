@@ -1,111 +1,153 @@
 "use strict";
 
+/*-----------------------
+*   Подключение плагинов
+-------------------------*/
 var gulp           = require('gulp'),
-    sourcemaps     = require('gulp-sourcemaps'),
-    sass           = require('gulp-sass'),
-    notify         = require('gulp-notify'),
-    autoprefixer   = require('gulp-autoprefixer'),
-    cssnano        = require('gulp-cssnano'),
-    concat         = require('gulp-concat'),
-    rename         = require('gulp-rename'),
-    clean          = require('gulp-clean'),
-    plumber        = require('gulp-plumber'),
-    uglify         = require('gulp-uglify'),
-    browserSync    = require('browser-sync').create(),
-    filter         = require('gulp-filter'),
-    mainBowerFiles = require('main-bower-files'),
-    imagemin       = require('gulp-imagemin'),
-    cache          = require('gulp-cache'),
-    rev            = require('gulp-rev-append');
+    sourcemaps     = require('gulp-sourcemaps'), // создание файла для удобной отладки
+    sass           = require('gulp-sass'),  // компиляция sass-файлов
+    notify         = require('gulp-notify'),  // вывод окошка с ошибками
+    autoprefixer   = require('gulp-autoprefixer'), // добавление автопрефиксов
+    cssnano        = require('gulp-cssnano'), // минификация стилей
+    concat         = require('gulp-concat'),  // объединение стилей или скриптов
+    rename         = require('gulp-rename'), // переименование файлов
+    clean          = require('gulp-clean'), // удаление файлов или папок
+    plumber        = require('gulp-plumber'), // ловля ошибок
+    uglify         = require('gulp-uglify'),  // минификация скриптов
+    browserSync    = require('browser-sync').create(),  // запуск сервера и автоперезагрузка страниц
+    filter         = require('gulp-filter'),  // отбор по фильтру нужных файлов
+    mainBowerFiles = require('main-bower-files'), // поиск bower-файлов
+    imagemin       = require('gulp-imagemin'),  // оптимизация изображений
+    cache          = require('gulp-cache'), // кэширование файлов
+    rev            = require('gulp-rev-append'),  // замена стилей и скриптов, закэшированных в браузере
+    pug            = require('gulp-pug'); // компиляция pug-файлов
 
-// Задача запускаемая по умолчанию режим разработчика по команде Gulp 
+/*-----------------------
+*   Указание директорий
+-------------------------*/
+var DEV_DIR = './_dev/',
+    PROD_DIR = './_prod/';
+
+var path = {
+
+  pug: {
+    entry: DEV_DIR + '*.pug',
+    src: DEV_DIR + '**/*.pug',
+    dist: PROD_DIR
+  },
+
+  sass: {
+    entry: DEV_DIR + 'css/styles.scss',
+    src: DEV_DIR + 'css/**/*.scss',
+    dist: PROD_DIR + 'css'
+  },
+
+  js: {
+    src: DEV_DIR + 'js/**/*.js',
+    dist: PROD_DIR + 'js'
+  },
+
+  fonts: {
+    src: DEV_DIR + 'fonts/**/*.*',
+    dist: PROD_DIR + 'fonts'
+  },
+
+  images: {
+    src: DEV_DIR + 'images/**/*.*',
+    dist: PROD_DIR + 'images'
+  },
+
+  all: {
+    src: DEV_DIR + '**/*.*'
+  },
+
+  html: {
+    entry: PROD_DIR + '*.html',
+    dist: PROD_DIR
+  }
+
+};
+
+var bower_paths = mainBowerFiles({
+  paths: {
+    bowerDirectory: './bower_components',
+    bowerrc: './.bowerrc',
+    bowerJson: './bower.json'
+  }
+});
+
+
+/*------------------------
+*   Указание задач
+---------------------------*/
+
+// Запуск по умолчанию режима разработчика по команде Gulp 
 gulp.task('default', ['clean'], function() {
   gulp.run('dev');
 });
 
-// Задача запускаемая готовую продакшн сборку
+// Запуск продакшн сборки
 gulp.task('prod', ['clean'], function() {
   gulp.run('build');
 });
 
-// Задача запускаемая режим разработчика
+// Запуск режима разработчика
 gulp.task('dev', ['build', 'watch', 'browser-sync']);
 
-// Задача запускаемая режим продакшн. Сборка проекта
-gulp.task('build', ['html', 'styles', 'styles:vendor', 'scripts', 'scripts:vendor', 'fonts', 'images']);
+// Запуск сборки проекта
+gulp.task('build', ['pug', 'styles', 'styles:vendor', 'scripts', 'scripts:vendor', 'fonts', 'images']);
 
 // Слежка за изменением файлов в проекте и если это произошло, то запускаются соответствующие задачи
 gulp.task('watch', function() {
-  gulp.watch('./_dev/css/**/*.scss', ['styles']); // стили
-  gulp.watch('./_dev/js/**/*.js', ['scripts']); // скрипты
-  gulp.watch('./_dev/*.html', ['html']); // html
-  gulp.watch('./bower.json', ['styles:vendor', 'scripts:vendor']); // Вендорные стили и скрипты
-  gulp.watch('./_dev/fonts/**/*.*', ['fonts']); // шрифты
-  gulp.watch('./_dev/images/**/*.*', ['images']); // изображения
-  gulp.watch('./_dev/**/*.*').on('change', browserSync.reload); // перезапуск browserSynс
+  gulp.watch(path.pug.src, ['pug']);
+  gulp.watch(path.sass.src, ['styles']);
+  gulp.watch(path.js.src, ['scripts']);
+  gulp.watch('./bower.json', ['styles:vendor', 'scripts:vendor']);
+  gulp.watch(path.fonts.src, ['fonts']);
+  gulp.watch(path.images.src, ['images']);
+  gulp.watch(path.all.src).on('change', browserSync.reload);
 });
 
-// Сборка и перемещение стилей в папку _prod
+// Сборка и перемещение pug-файлов 
+gulp.task('pug', function() {
+  return gulp.src(path.pug.entry)
+    .pipe(pug({
+        pretty: '\t'
+    }))
+    .pipe(gulp.dest(path.pug.dist));
+});
+
+// Сборка и перемещение стилей
 gulp.task('styles', function() {
-  return gulp.src('./_dev/css/styles.scss')
-    .pipe(sourcemaps.init()) // Начала записи файла для отладки стилей в devTools
-    .pipe(sass({outputStyle: 'expanded'}).on("error", notify.onError())) // Компиляция SASS, с проверкой на ошибки
-    .pipe(autoprefixer({ // Добавление автопрефиксов.
+  return gulp.src(path.sass.entry)
+    .pipe(sourcemaps.init())
+    .pipe(sass({outputStyle: 'expanded'}).on("error", notify.onError()))
+    .pipe(autoprefixer({
       browsers: ['last 2 versions']
     }))
-    .pipe(cssnano()) // минификация файла стилей
-    .pipe(rename({  // переименовываем файл стилей
+    .pipe(cssnano())
+    .pipe(rename({
       basename: "main",
       suffix: ".min"
     }))
-    .pipe(sourcemaps.write()) // Конец записи файла для отладки в devTools
-    .pipe(gulp.dest('./_prod/css'));
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest(path.sass.dist));
 });
 
-// Перемещение Вендорных стилей в папку _prod
+// Сборка и перемещение Вендорных стилей
 gulp.task('styles:vendor', function () {
-  return gulp.src(mainBowerFiles({ // Находим все bower-библиотеки(полный путь до них) 
-    paths: {
-      bowerDirectory: './bower_components',
-      bowerrc: './.bowerrc',
-      bowerJson: './bower.json'
-    }
-  }))
-    .pipe(filter(['**/*.css'])) // Отфильтруем bower-библиотеки (только css)
+  return gulp.src(bower_paths)
+    .pipe(filter(['**/*.css']))
     .pipe(concat('vendor.css'))
-    .pipe(cssnano()) // Минификация стилей
-    .pipe(gulp.dest('./_prod/css'));
+    .pipe(cssnano())
+    .pipe(gulp.dest(path.sass.dist));
 });
 
-// Задача для удаление папки _prod
-gulp.task('clean', function() {
-  return gulp.src('./_prod/')
-    .pipe(clean());
-});
-
-// Задача на очистку кэша (запускается вручную)
-gulp.task('clearcache', function() {
-  return cache.clearAll();
-});
-
-// Задача делает замену стилей и скриптов, которые закэшированы в браузере (запускается вручную)
-gulp.task('revAll', function() {
-  gulp.src('./_prod/index.html')
-    .pipe(rev())
-    .pipe(gulp.dest('./_prod/'));
-});
-
-// Перемещение HTML в папку _prod
-gulp.task('html', function() {
-  return gulp.src('./_dev/*.html')
-    .pipe(gulp.dest('./_prod/'));
-});
-
-// Перемещение скриптов в папку _prod
+// Сборка и перемещение скриптов
 gulp.task('scripts', function() {
-  return gulp.src('./_dev/js/**/*.js')
-    .pipe(plumber({ // ловля ошибок
-      errorHandler: function(err) { // отображение ошибок в удобной форме
+  return gulp.src(path.js.src)
+    .pipe(plumber({
+      errorHandler: function(err) {
         notify.onError({
           title:   'ErrorScript',
           message: err.message
@@ -114,45 +156,29 @@ gulp.task('scripts', function() {
       }
     }))
     .pipe(concat('main.min.js'))
-    .pipe(uglify()) // Минификация скриптов
-    .pipe(gulp.dest('./_prod/js'));
+    .pipe(uglify())
+    .pipe(gulp.dest(path.js.dist));
 });
 
-// Перемещение Вендорных скриптов в папку _prod
+// Сборка и перемещение Вендорных скриптов
 gulp.task('scripts:vendor', function () {
-  return gulp.src(mainBowerFiles({ // Находим все bower-библиотеки(полный путь до них)
-    paths: {
-      bowerDirectory: './bower_components',
-      bowerrc: './.bowerrc',
-      bowerJson: './bower.json'
-    }
-  }))
-    .pipe(filter(['**/*.js'])) //Отфильтруем bower-библиотеки (только js)
+  return gulp.src(bower_paths)
+    .pipe(filter(['**/*.js']))
     .pipe(concat('vendor.js'))
-    .pipe(uglify()) // Минификация скриптов
-    .pipe(gulp.dest('./_prod/js'));
+    .pipe(uglify())
+    .pipe(gulp.dest(path.js.dist));
 });
 
-// Задача для запуска сервера
-gulp.task('browser-sync', function() {
-  return browserSync.init({
-    reloadDelay: 2000,  
-    server: {
-      baseDir: './_prod/'
-    }
-  });
-});
-
-// Перемещение шрифтов в папку _prod
+// Перемещение шрифтов
 gulp.task('fonts', function() {
-  return gulp.src('./_dev/fonts/**/*.*')
-    .pipe(gulp.dest('./_prod/fonts'));
+  return gulp.src(path.fonts.src)
+    .pipe(gulp.dest(path.fonts.dist));
 });
 
-// Перемещение изображений в папку _prod
+// Оптимизация и перемещение изображений
 gulp.task('images', function() {
-  return gulp.src('./_dev/images/**/*.*')
-    .pipe(cache(imagemin({ // минификация и кэширование изображений
+  return gulp.src(path.images.src)
+    .pipe(cache(imagemin({
       interlaced: true,
       optimizationLevel: 3,
       progressive: true,
@@ -160,5 +186,34 @@ gulp.task('images', function() {
         removeViewBox: false
       }]
     })))
-    .pipe(gulp.dest('./_prod/images'));
+    .pipe(gulp.dest(path.images.dist));
 });
+
+// Запуск сервера
+gulp.task('browser-sync', function() {
+  return browserSync.init({
+    reloadDelay: 1000,  
+    server: {
+      baseDir: PROD_DIR
+    }
+  });
+});
+
+// Удаление продакшн директории
+gulp.task('clean', function() {
+  return gulp.src(PROD_DIR)
+    .pipe(clean());
+});
+
+// Запуск очистку кэша (запускается вручную)
+gulp.task('clearcache', function() {
+  return cache.clearAll();
+});
+
+// Запуск замены стилей и скриптов, которые закэшированы в браузере (запускается вручную)
+gulp.task('revAll', function() {
+  gulp.src(path.html.entry)
+    .pipe(rev())
+    .pipe(gulp.dest(path.html.dist));
+});
+

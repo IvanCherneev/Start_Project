@@ -1,0 +1,28 @@
+.nav-bar {
+	background-color: #4bb7fb;
+}
+
+.nav-bar__item {
+	float: left;
+	border-left: 1px solid #745e4e;
+
+	&:first-child {
+		border-left: none;
+
+		& .nav-bar__link {
+			padding-left: 0;
+		}
+	}
+}
+
+.nav-bar__link {
+	color: white;
+	font-size: 18px;
+	display: inline-block;
+	text-decoration: none;
+	padding: 10px 30px;	
+}
+
+.nav-bar__link_active {
+	text-decoration: underline;
+}
