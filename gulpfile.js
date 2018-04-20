@@ -111,6 +111,15 @@ gulp.task('watch', function() {
 // Сборка и перемещение pug-файлов 
 gulp.task('pug', function() {
   return gulp.src(path.pug.entry)
+    .pipe(plumber({
+      errorHandler: function(err) {
+        notify.onError({
+          title:   'ErrorPug',
+          message: err.message
+        })(err);
+        this.emit('end');
+      }
+    }))
     .pipe(pug({
         pretty: '\t'
     }))
@@ -121,7 +130,7 @@ gulp.task('pug', function() {
 gulp.task('styles', function() {
   return gulp.src(path.sass.entry)
     .pipe(sourcemaps.init())
-    .pipe(sass({outputStyle: 'expanded'}).on("error", notify.onError()))
+    .pipe(sass().on("error", notify.onError()))
     .pipe(autoprefixer({
       browsers: ['last 2 versions']
     }))
