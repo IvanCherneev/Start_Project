@@ -52,12 +52,12 @@ body {
 // Встраивается в другие блоки и выравнивает по центру
 .container {
 	@extend %clearfix;
-	margin: 0 auto;
-	max-width: $container-width + 20px; // 20px для отображения на смартах
+	//margin: 0 auto; // при отключении bootstrap раскомментировать
+	max-width: $container-width; // + 20px; // 20px для отображения на смартах (при отключении bootstrap раскомментировать)
 	min-width: 320px;
-	padding: 0 20px 0 20px;
+	//padding: 0 20px 0 20px; // при отключении bootstrap раскомментировать
 	position: relative;
-	//outline: 1px solid black;
+	//outline: 1px solid black; // для отладки
 }
 
 // Настройка списка
